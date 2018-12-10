@@ -86,6 +86,8 @@ define docker::swarm(
   Optional[String] $snapshot_interval             = undef,
   Optional[String] $token                         = undef,
   Optional[String] $manager_ip                    = undef,
+  Optional[String] $default_addr_pool             = undef,
+  Optional[String] $default_addr_pool_mask_length = undef,
   ){
 
   include docker::params
@@ -115,16 +117,18 @@ define docker::swarm(
 
   if $init {
     $docker_swarm_init_flags = docker_swarm_init_flags({
-      init                 => $init,
-      advertise_addr       => $advertise_addr,
-      autolock             => $autolock,
-      cert_expiry          => $cert_expiry,
-      dispatcher_heartbeat => $dispatcher_heartbeat,
-      external_ca          => $external_ca,
-      force_new_cluster    => $force_new_cluster,
-      listen_addr          => $listen_addr,
-      max_snapshots        => $max_snapshots,
-      snapshot_interval    => $snapshot_interval,
+      init                          => $init,
+      advertise_addr                => $advertise_addr,
+      autolock                      => $autolock,
+      cert_expiry                   => $cert_expiry,
+      dispatcher_heartbeat          => $dispatcher_heartbeat,
+      external_ca                   => $external_ca,
+      force_new_cluster             => $force_new_cluster,
+      listen_addr                   => $listen_addr,
+      max_snapshots                 => $max_snapshots,
+      snapshot_interval             => $snapshot_interval,
+      default_addr_pool             => $default_addr_pool,
+      default_addr_pool_mask_length => $default_addr_pool_mask_length,
     })
 
     $exec_init = "${docker_command} ${docker_swarm_init_flags}"
